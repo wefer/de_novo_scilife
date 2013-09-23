@@ -47,7 +47,7 @@ def _run_abyss_kmerPlot(global_config, sample_config, sorted_libraries_by_insert
     else:
         print "done (ABySS_Kmer_Folder folder already present, assumed already run)"
         #return
-   
+
     os.chdir(ABySS_Kmer_Folder)
     ABySS_Kmer_stdOut = open("ABySS_Kmer_Folder.stdOut", "a")
     ABySS_Kmer_stdErr = open("ABySS_Kmer_Folder.stdErr", "a")
@@ -65,7 +65,7 @@ def _run_abyss_kmerPlot(global_config, sample_config, sorted_libraries_by_insert
             command.append(read1)
             if read2 is not None:
                 command.append(read2)
-        
+
     subprocess.call(command, stdout=ABySS_Kmer_stdOut, stderr=ABySS_Kmer_stdErr)
     subprocess.call(("rm", "preUnitgs.fa"))
     _plotKmerPlot()
@@ -80,16 +80,16 @@ def _plotKmerPlot():
     Kmer_freq      = [Kmer_coverage[i]*Kmer_count[i] for i in range(len(Kmer_coverage))]
     kmer_freq_peak = Kmer_freq.index(max(Kmer_freq[7:]))	#coverage peak, disregarding initial peak
     kmer_freq_peak_value=max(Kmer_freq[7:])
-    
+
     xmax = 200
     ymax = kmer_freq_peak_value+(kmer_freq_peak_value*0.30)
-    
+
     plt.plot(Kmer_coverage, Kmer_freq)
     plt.title('K-mer length = %s' % 54)
     plt.xlim((0,xmax))
     plt.ylim((0,ymax))
     plt.vlines(kmer_freq_peak, 0, kmer_freq_peak_value, colors='r', linestyles='--')
-    plt.text(kmer_freq_peak, kmer_freq_peak_value+20000, str(kmer_freq_peak))
+    plt.text(kmer_freq_peak, kmer_freq_peak_value*1.1, str(kmer_freq_peak))
     plotname = "kmer_coverage.png"
     plt.savefig(plotname)
     plt.clf()
